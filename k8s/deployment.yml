@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: youtubeclone
+  labels:
+    app: youtubeclone
+spec:
+  selector:
+    matchLabels:
+      app: youtubeclone      
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: youtubeclone
+        
+    spec:
+      containers:
+      - name: youtubeclone
+        image: si3mshady/ytc
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi            
+        
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ytclone
+  labels:
+    app: youtubeclone    
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 80
+  selector:
+    app: youtubeclone
+    
